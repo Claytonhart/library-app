@@ -1,11 +1,18 @@
 import React from 'react';
-import TopBooks from 'components/TopBooks';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+import BookSearch from 'components/BookSearch';
+import BookView from 'components/BookView';
 
 function App() {
   return (
-    <div className='App'>
-      <TopBooks />
-    </div>
+    <Router>
+      <div className='App'>
+        <Route exact path='/' component={BookSearch} />
+        <Route path='/books' component={BookSearch} />
+        <Route path='/books/:id' component={BookView} />
+      </div>
+    </Router>
   );
 }
 
