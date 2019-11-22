@@ -16,13 +16,19 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      "Helvetica Neue", Helvetica, Arial, sans-serif;
+    /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      "Helvetica Neue", Helvetica, Arial, sans-serif; */
+      font-family: 'Quicksand', sans-serif;
     /* color: #172b4d;   */
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
     /* line-height: 1.42857142857143; */
+  }
+
+  h1,h2,h3,h4,h5,h6 {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 400;
   }
 
   input {

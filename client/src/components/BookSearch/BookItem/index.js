@@ -22,60 +22,75 @@ const Info = styled.div`
   justify-content: space-between;
 `;
 
-const ImageLinks = styled.div`
+const Image = styled.div`
   min-height: 200px;
-`;
-const Image = styled.img`
-  max-width: 128px;
-`;
-const Title = styled.div``;
-const PublishedDate = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-const AverageRating = styled.div`
-  display: flex;
-  flex-direction: column;
+  width: 128px;
+  min-width: 128px;
+  background: url(${props => props.image}) no-repeat center center;
+  background-size: cover;
 `;
 
-const BookItem = ({ book }) => {
-  const { volumeInfo, id } = book;
+const Title = styled.div`
+  font-size: 16px;
+  color: ${props => props.theme.primary.lightblue};
+`;
+
+const InfoItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  color: #555;
+  font-weight: 700;
+  font-size: 13px;
+
+  span {
+    color: #aaa;
+    font-size: 12px;
+    font-weight: 400;
+  }
+`;
+
+const Authors = styled.div`
+  /*  */
+`;
+
+const BookItem = props => {
+  const { volumeInfo, id } = props.book;
 
   const {
+    authors, // ["string"]
     averageRating = 'N/A', // number 1-5
-    imageLinks = notfound, // {'smallThumbnail', 'thumbnail'}
+    // imageLinks = notfound, // {'smallThumbnail', 'thumbnail'}
     publishedDate = 'N/A', // 'string' - '2016-07-31'
     title = 'N/A' // 'string'
   } = volumeInfo;
+
+  let image;
+  if (volumeInfo.imageLinks) {
+    image =
+      volumeInfo.imageLinks.thumbnail || volumeInfo.imageLinks.smallThumbnail;
+  } else {
+    image = notfound;
+  }
 
   const realeaseYear = publishedDate.substring(0, 4);
 
   return (
     <Container>
-      <ImageLinks>
-        <Link to={`/books/${id}`}>
-          <img src={imageLinks.thumbnail} alt={title} />
-          {/* {imageLinks ? (
-            <Image
-              src={imageLinks.thumnail || imageLinks.smallThumbnail}
-              alt='book cover'
-            />
-          ) : (
-            <Image src={notfound} alt='not found' />
-          )} */}
-        </Link>
-      </ImageLinks>
+      <Link to={`/books/${id}`}>
+        <Image image={image} />
+      </Link>
       <InfoContainer>
         <Title>{title}</Title>
+        <Authors>{authors.join(', ')}</Authors>
         <Info>
-          <PublishedDate>
+          <InfoItem>
             <span>Year</span>
             {realeaseYear}
-          </PublishedDate>
-          <AverageRating>
+          </InfoItem>
+          <InfoItem>
             <span>Rating</span>
             {averageRating}
-          </AverageRating>
+          </InfoItem>
         </Info>
       </InfoContainer>
     </Container>
