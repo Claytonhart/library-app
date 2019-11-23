@@ -53,13 +53,12 @@ const Authors = styled.div`
   /*  */
 `;
 
-const BookItem = props => {
-  const { volumeInfo, id } = props.book;
+const BookItem = ({ book }) => {
+  const { volumeInfo, id } = book;
 
   const {
-    authors, // ["string"]
+    authors = ['N/A'], // ["string"]
     averageRating = 'N/A', // number 1-5
-    // imageLinks = notfound, // {'smallThumbnail', 'thumbnail'}
     publishedDate = 'N/A', // 'string' - '2016-07-31'
     title = 'N/A' // 'string'
   } = volumeInfo;
