@@ -4,7 +4,10 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import ColorThief from 'colorthief';
 
+import Description from './Description';
 import notfound from 'assets/images/notfound.svg';
+
+import { parseCategories } from 'utils/parseCategories';
 
 const Container = styled.div``;
 
@@ -66,7 +69,7 @@ const Categories = styled.div`
   color: ${props => props.theme.primary.lightblue};
 `;
 const CategoryName = styled.p``;
-const Description = styled.div``;
+// const Description = styled.div``;
 const Image = styled.img`
   max-width: 90%;
 `;
@@ -88,6 +91,9 @@ const BookView = () => {
       const baseUrl = `https://www.googleapis.com/books/v1/volumes/${id}`;
       let res = await axios.get(baseUrl);
       let book = res.data.volumeInfo;
+
+      let categories = parseCategories(book.categories);
+      book.categories = categories;
 
       setBookData(book);
       setIsLoading(false);
@@ -132,7 +138,6 @@ const BookView = () => {
                   crossOrigin={'anonymous'}
                   ref={imgRef}
                   src={src}
-                  // src={`https://cors-anywhere.herokuapp.com/${image}`}
                   alt='book cover'
                   className={'example__img'}
                   onLoad={() => {
@@ -167,7 +172,7 @@ const BookView = () => {
                   <RatingsCount>Number of ratings: {ratingsCount}</RatingsCount>
                   <PageCount>Pages: {pageCount}</PageCount>
                   <PublishedDate>Published on: {publishedDate}</PublishedDate>
-                  <Description>{description}</Description>
+                  <Description description={description} />
                   <PreviewLink>
                     <a
                       href={previewLink}
