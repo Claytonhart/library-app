@@ -8,16 +8,16 @@ import Description from './Description';
 import notfound from 'assets/images/notfound.svg';
 
 import { parseCategories } from 'utils/parseCategories';
+import PreloadImage from './PreloadImage';
 
 const Container = styled.div``;
 
-const Banner = styled.div`
+const BannerWrapper = styled.div`
   background-image: linear-gradient(
-      to bottom,
-      rgba(${props => props.color}, 0.25),
-      rgba(${props => props.color}, 0.75)
-    ),
-    url(${props => props.image});
+    to bottom,
+    rgba(${props => props.color}, 0.25),
+    rgba(${props => props.color}, 0.75)
+  );
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
@@ -26,6 +26,25 @@ const Banner = styled.div`
   position: absolute;
   top: 0;
   z-index: -1;
+`;
+const Banner = styled.div`
+  background-image: url(${props => props.image});
+  opacity: .2;
+  /* background-image: url(${props => props.image}),
+    linear-gradient(
+      to bottom,
+      rgba(${props => props.color}, 0.25),
+      rgba(${props => props.color}, 0.75)
+    ); */
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  /* height: 400px; */
+  height: 100%;
+  width: 100%;
+  /* position: absolute;
+  top: 0;
+  z-index: -1; */
 `;
 
 const BookInfo = styled.div`
@@ -81,6 +100,7 @@ const Publisher = styled.div``;
 const BookView = () => {
   const [bookData, setBookData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [imageLoading, setImageLoading] = useState(true);
   const [color, setColor] = useState(null);
   const { id } = useParams();
 
@@ -128,26 +148,16 @@ const BookView = () => {
 
   return (
     <>
-      {!isLoading && (
+      {!isLoading && <PreloadImage image={image} setColor={setColor} />}
+      {!isLoading && color && (
         <>
-          <Banner image={image} color={color} />
+          <BannerWrapper color={color}>
+            <Banner image={image} display={color ? 'block' : 'none'} />
+          </BannerWrapper>
           <Container>
             <BookInfo>
               <Left>
-                <Image
-                  crossOrigin={'anonymous'}
-                  ref={imgRef}
-                  src={src}
-                  alt='book cover'
-                  className={'example__img'}
-                  onLoad={() => {
-                    const colorThief = new ColorThief();
-                    const img = imgRef.current;
-                    const result = colorThief.getColor(img);
-                    console.log(result.join(', '));
-                    setColor(result.join(', '));
-                  }}
-                />
+                <Image src={image} alt='book cover' />
                 <Categories>
                   Categories:
                   {categories.map((category, i) => (
@@ -186,24 +196,6 @@ const BookView = () => {
                 </RightBottom>
               </Right>
             </BookInfo>
-
-            {/* <Categories>
-              Categories:
-              {categories.map((category, i) => (
-                <CategoryName key={i}>{category}</CategoryName>
-              ))}
-            </Categories> */}
-            {/* <Publisher>Published by: {publisher}</Publisher>
-            <AverageRating>Average rating: {averageRating}</AverageRating>
-            <RatingsCount>Number of ratings: {ratingsCount}</RatingsCount>
-            <PageCount>Pages: {pageCount}</PageCount>
-            <PublishedDate>Published on: {publishedDate}</PublishedDate>
-            <PreviewLink>
-              <a href={previewLink} target='_blank' rel='noopener noreferrer'>
-                Preview on google books
-              </a>
-            </PreviewLink>
-            <span>id: {id}</span> */}
           </Container>
         </>
       )}

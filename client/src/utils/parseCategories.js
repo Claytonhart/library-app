@@ -1,4 +1,5 @@
 export function parseCategories(arr) {
+  if (!arr || arr.length === 0) return arr;
   let categories = [];
 
   arr.forEach(string => {
