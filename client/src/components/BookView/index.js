@@ -2,22 +2,21 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components/macro';
-import ColorThief from 'colorthief';
 
 import Description from './Description';
 import notfound from 'assets/images/notfound.svg';
 
 import { parseCategories } from 'utils/parseCategories';
-import PreloadImage from './PreloadImage';
 
-const Container = styled.div``;
+const Container = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+`;
 
-const BannerWrapper = styled.div`
-  background-image: linear-gradient(
-    to bottom,
-    rgba(${props => props.color}, 0.25),
-    rgba(${props => props.color}, 0.75)
-  );
+const Banner = styled.div`
+  /* https://stackoverflow.com/questions/15852122/hex-transparency-in-colors/17239853#17239853 */
+  background-image: linear-gradient(to bottom, #12130fcc, #ffffff4d),
+    url(${props => props.image});
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
@@ -26,25 +25,6 @@ const BannerWrapper = styled.div`
   position: absolute;
   top: 0;
   z-index: -1;
-`;
-const Banner = styled.div`
-  background-image: url(${props => props.image});
-  opacity: .2;
-  /* background-image: url(${props => props.image}),
-    linear-gradient(
-      to bottom,
-      rgba(${props => props.color}, 0.25),
-      rgba(${props => props.color}, 0.75)
-    ); */
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;
-  /* height: 400px; */
-  height: 100%;
-  width: 100%;
-  /* position: absolute;
-  top: 0;
-  z-index: -1; */
 `;
 
 const BookInfo = styled.div`
@@ -100,11 +80,8 @@ const Publisher = styled.div``;
 const BookView = () => {
   const [bookData, setBookData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const [imageLoading, setImageLoading] = useState(true);
-  const [color, setColor] = useState(null);
-  const { id } = useParams();
 
-  const imgRef = React.createRef();
+  const { id } = useParams();
 
   useEffect(() => {
     (async () => {
@@ -135,25 +112,19 @@ const BookView = () => {
   } = bookData;
 
   let image;
-  let src;
   if (imageLinks) {
     const { medium, small, thumbnail, smallThumbnail } = imageLinks;
 
     image = medium || small || thumbnail || smallThumbnail;
-    src = `https://cors-anywhere.herokuapp.com/${image}`;
   } else {
     image = notfound;
-    src = notfound;
   }
 
   return (
     <>
-      {!isLoading && <PreloadImage image={image} setColor={setColor} />}
-      {!isLoading && color && (
+      {!isLoading && (
         <>
-          <BannerWrapper color={color}>
-            <Banner image={image} display={color ? 'block' : 'none'} />
-          </BannerWrapper>
+          <Banner image={image} />
           <Container>
             <BookInfo>
               <Left>
