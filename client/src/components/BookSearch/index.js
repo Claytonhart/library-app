@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components/macro';
-import BookItem from './BookItem';
 import BookList from './BookList';
 
 const Container = styled.div`
@@ -10,7 +9,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* justify-content: center; */
 `;
 
 const Header = styled.h2`
@@ -32,7 +30,7 @@ const BookSearch = () => {
   useEffect(() => {
     const baseUrl =
       'https://www.googleapis.com/books/v1/volumes?q=harry potter';
-    axios.get(`${baseUrl}${searchValue}`).then(res => setBookData(res.data));
+    axios.get(`${baseUrl}`).then(res => setBookData(res.data));
   }, []);
 
   const formSubmit = async e => {
@@ -55,13 +53,6 @@ const BookSearch = () => {
         />
       </BookSearchForm>
       {bookData && <BookList bookData={bookData} />}
-      {/* {bookData && (
-        <BookData>
-          {bookData.items.map((book, i) => {
-            return <BookItem key={i + book.id} book={book} />;
-          })}
-        </BookData>
-      )} */}
     </Container>
   );
 };
