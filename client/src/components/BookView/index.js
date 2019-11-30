@@ -3,9 +3,9 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components/macro';
 
+import AuthorName from './AuthorName';
 import Description from './Description';
 import notfound from 'assets/images/notfound.svg';
-
 import { parseCategories } from 'utils/parseCategories';
 
 const Container = styled.div`
@@ -56,9 +56,9 @@ const RightBottom = styled.div`
 const Title = styled.h1``;
 
 const Authors = styled.div``;
-const AuthorName = styled.p`
-  display: inline-block;
-`;
+// const AuthorName = styled.p`
+//   display: inline-block;
+// `;
 
 const BookType = styled.p``;
 const AverageRating = styled.div``;
@@ -142,7 +142,11 @@ const BookView = () => {
                   <Authors>
                     by{' '}
                     {authors.map((author, i) => (
-                      <AuthorName key={i}>{author}</AuthorName>
+                      <AuthorName
+                        key={i}
+                        author={author}
+                        addComma={i < authors.length - 1 ? true : false}
+                      />
                     ))}
                   </Authors>
                   <BookType>Book</BookType>
