@@ -15,7 +15,12 @@ const Container = styled.div`
 
 const Banner = styled.div`
   /* https://stackoverflow.com/questions/15852122/hex-transparency-in-colors/17239853#17239853 */
-  background-image: linear-gradient(to bottom, #12130fcc, #ffffff4d),
+  /* black rgb(18, 19, 15) */
+  background-image: linear-gradient(
+      to bottom,
+      rgba(18, 19, 15, 0.9),
+      rgba(18, 19, 15, 0.5)
+    ),
     url(${props => props.image});
   background-repeat: no-repeat;
   background-size: cover;
@@ -40,6 +45,7 @@ const Left = styled.div`
 const Right = styled.div`
   flex: 1;
   margin-top: 150px;
+  overflow: hidden;
 `;
 
 const RightTop = styled.div`
@@ -53,12 +59,13 @@ const RightBottom = styled.div`
   color: initial;
 `;
 
-const Title = styled.h1``;
+const Title = styled.h1`
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`;
 
 const Authors = styled.div``;
-// const AuthorName = styled.p`
-//   display: inline-block;
-// `;
 
 const BookType = styled.p``;
 const AverageRating = styled.div``;
@@ -68,7 +75,7 @@ const Categories = styled.div`
   color: ${props => props.theme.primary.lightblue};
 `;
 const CategoryName = styled.p``;
-// const Description = styled.div``;
+
 const Image = styled.img`
   max-width: 90%;
 `;
