@@ -4,6 +4,7 @@ import styled from 'styled-components/macro';
 const ListContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+  margin: 20px 0;
 `;
 
 const BookList = ({ bookData }) => {
