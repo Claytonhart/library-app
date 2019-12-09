@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components/macro';
+
+import { getBookList } from 'actions/bookList';
 import BookList from './BookList';
 
 const Container = styled.div`
@@ -15,46 +17,21 @@ const Header = styled.h2`
   font-size: 30px;
 `;
 
-const BookSearchForm = styled.form`
-  /*  */
-`;
-
-const BookInput = styled.input`
-  padding: 12px;
-`;
-
-const BookSearch = () => {
-  const [searchValue, setSearchValue] = useState('');
-  const [bookData, setBookData] = useState(null);
-
+const BookSearch = ({ bookList, getBookList }) => {
   useEffect(() => {
-    const baseUrl =
-      'https://www.googleapis.com/books/v1/volumes?q=harry potter';
-    axios.get(`${baseUrl}`).then(res => setBookData(res.data));
-  }, []);
-
-  const formSubmit = async e => {
-    e.preventDefault();
-
-    const baseUrl = 'https://www.googleapis.com/books/v1/volumes?q=';
-    let res = await axios.get(`${baseUrl}${searchValue}`);
-
-    setBookData(res.data);
-  };
+    getBookList();
+  }, [getBookList]);
 
   return (
     <Container>
       <Header>Top Books</Header>
-      <BookSearchForm onSubmit={formSubmit}>
-        <BookInput
-          type='text'
-          value={searchValue}
-          onChange={e => setSearchValue(e.target.value)}
-        />
-      </BookSearchForm>
-      {bookData && <BookList bookData={bookData} />}
+      {bookList && <BookList bookData={bookList} />}
     </Container>
   );
 };
 
-export default BookSearch;
+const mapStateToProps = state => ({
+  bookList: state.bookList
+});
+
+export default connect(mapStateToProps, { getBookList })(BookSearch);
