@@ -8,12 +8,14 @@ import Navbar from 'components/Navbar';
 function App() {
   return (
     <Router>
-      <div className='App'>
+      <>
         <Navbar />
-        <Route exact path='/' component={BookSearch} />
-        <Route exact path='/books' component={BookSearch} />
-        <Route path='/books/:id' component={BookView} />
-      </div>
+        <div style={{ marginTop: 58 }}>
+          <Route exact path='/' component={BookSearch} />
+          <Route exact path='/books' component={BookSearch} />
+          <Route path='/books/:id' component={BookView} />
+        </div>
+      </>
     </Router>
   );
 }

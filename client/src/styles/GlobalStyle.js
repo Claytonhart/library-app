@@ -9,10 +9,10 @@ export const GlobalStyle = createGlobalStyle`
   box-sizing: inherit;
   }
 
-  html,
+  /* html,
   body {
     height: 100%;
-  }
+  } */
 
   body {
     box-sizing: border-box;
@@ -48,10 +48,10 @@ export const GlobalStyle = createGlobalStyle`
     background-color: transparent;
   }
 
-  #root {
+  /* #root {
     height: 100%;
     width: 100%;
-  }
+  } */
 
   a {
     /* color: currentColor; */

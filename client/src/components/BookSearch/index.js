@@ -7,6 +7,7 @@ import BookList from './BookList';
 
 const Container = styled.div`
   margin: 0 auto;
+  padding: 20px 0;
   max-width: 800px;
   display: flex;
   flex-direction: column;
