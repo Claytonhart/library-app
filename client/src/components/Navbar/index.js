@@ -49,7 +49,7 @@ const Navbar = () => {
       <Logo to='/'>Book Search</Logo>
       <BookSearch />
       <AuthLinks>
-        <AuthLink to='/signin'>Sign in</AuthLink>
+        <AuthLink to='/login'>Sign in</AuthLink>
         <AuthLink to='/signup'>Sign up</AuthLink>
       </AuthLinks>
     </Nav>
