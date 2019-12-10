@@ -10,7 +10,7 @@ import { parseCategories } from 'utils/parseCategories';
 
 const Container = styled.div`
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 100px auto;
 `;
 
 const Banner = styled.div`
@@ -39,12 +39,11 @@ const BookInfo = styled.div`
 
 const Left = styled.div`
   flex-basis: 400px;
-  margin-top: 100px;
   padding: 20px;
 `;
 const Right = styled.div`
   flex: 1;
-  margin-top: 150px;
+  margin-top: 50px;
   overflow: hidden;
 `;
 
@@ -57,6 +56,21 @@ const RightTop = styled.div`
 `;
 const RightBottom = styled.div`
   color: initial;
+  padding-top: 20px;
+`;
+
+const AddToList = styled.button`
+  padding: 12px 24px;
+  border: 1px solid ${props => props.theme.primary.lightblue};
+  color: ${props => props.theme.primary.lightblue};
+  cursor: pointer;
+  transition: all 0.2s ease-in;
+  margin-bottom: 20px;
+
+  &:hover {
+    background-color: ${props => props.theme.primary.lightblue};
+    color: #fff;
+  }
 `;
 
 const Title = styled.h1`
@@ -78,6 +92,7 @@ const CategoryName = styled.p``;
 
 const Image = styled.img`
   max-width: 90%;
+  min-height: 300px;
 `;
 const PageCount = styled.div``;
 const PreviewLink = styled.div``;
@@ -159,6 +174,7 @@ const BookView = () => {
                   <BookType>Book</BookType>
                 </RightTop>
                 <RightBottom>
+                  <AddToList>Add To My Booklist</AddToList>
                   <Publisher>Published by: {publisher}</Publisher>
                   <AverageRating>Average rating: {averageRating}</AverageRating>
                   <RatingsCount>Number of ratings: {ratingsCount}</RatingsCount>
