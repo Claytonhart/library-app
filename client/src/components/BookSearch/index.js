@@ -36,7 +36,7 @@ const Next = styled.button`
   cursor: pointer;
 `;
 
-const BookSearch = ({ bookList, getBookList }) => {
+const BookSearch = ({ bookList, searchVal, getBookList }) => {
   useEffect(() => {
     getBookList();
   }, [getBookList]);
@@ -47,7 +47,7 @@ const BookSearch = ({ bookList, getBookList }) => {
 
   return (
     <Container>
-      <Header>Top Books</Header>
+      <Header>{searchVal}</Header>
       {bookList && <BookList bookData={bookList} />}
       <PaginationLinks>
         <Prev onClick={getNextBookList}>Previous</Prev>
@@ -58,7 +58,8 @@ const BookSearch = ({ bookList, getBookList }) => {
 };
 
 const mapStateToProps = state => ({
-  bookList: state.bookList
+  bookList: state.bookList,
+  searchVal: state.searchVal
 });
 
 export default connect(mapStateToProps, { getBookList })(BookSearch);

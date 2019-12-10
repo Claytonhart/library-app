@@ -22,7 +22,6 @@ const BookSearch = ({ getBookList }) => {
   const formSubmit = async e => {
     e.preventDefault();
     getBookList(searchValue);
-    setSearchValue('');
   };
 
   return (

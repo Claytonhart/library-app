@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import BookSearch from './BookSearch';
 
@@ -9,22 +10,34 @@ const Nav = styled.div`
   background-color: #fff;
 `;
 
-const Logo = styled.div`
-  /*  */
+const Logo = styled(Link)`
+  font-size: 20px;
+  color: ${props => props.theme.primary.lightblue};
+  transition: all 0.2s;
+
+  &:hover {
+    text-decoration: none;
+    color: ${props => props.theme.primary.darkblue};
+  }
 `;
 
 const AuthLinks = styled.div`
   /*  */
 `;
 
+const AuthLink = styled(Link)`
+  margin: 10px;
+  font-size: 16px;
+`;
+
 const Navbar = () => {
   return (
     <Nav>
-      <Logo>Book Search</Logo>
+      <Logo to='/'>Book Search</Logo>
       <BookSearch />
       <AuthLinks>
-        <a href='#!'>Sign in</a>
-        <a href='#!'>Sign up</a>
+        <AuthLink to='/signin'>Sign in</AuthLink>
+        <AuthLink to='/signup'>Sign up</AuthLink>
       </AuthLinks>
     </Nav>
   );
