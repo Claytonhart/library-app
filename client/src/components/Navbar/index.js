@@ -50,7 +50,7 @@ const Navbar = () => {
       <BookSearch />
       <AuthLinks>
         <AuthLink to='/login'>Sign in</AuthLink>
-        <AuthLink to='/signup'>Sign up</AuthLink>
+        <AuthLink to='/register'>Register</AuthLink>
       </AuthLinks>
     </Nav>
   );
