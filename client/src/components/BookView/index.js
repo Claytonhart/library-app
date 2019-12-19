@@ -175,12 +175,12 @@ const BookView = () => {
                 </RightTop>
                 <RightBottom>
                   <AddToList>Add To My Booklist</AddToList>
+                  <Description description={description} />
                   <Publisher>Published by: {publisher}</Publisher>
                   <AverageRating>Average rating: {averageRating}</AverageRating>
                   <RatingsCount>Number of ratings: {ratingsCount}</RatingsCount>
                   <PageCount>Pages: {pageCount}</PageCount>
                   <PublishedDate>Published on: {publishedDate}</PublishedDate>
-                  <Description description={description} />
                   <PreviewLink>
                     <a
                       href={previewLink}
