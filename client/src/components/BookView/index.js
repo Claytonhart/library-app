@@ -7,6 +7,7 @@ import AuthorName from './AuthorName';
 import Description from './Description';
 import notfound from 'assets/images/notfound.svg';
 import { parseCategories } from 'utils/parseCategories';
+import OverFlowHidden from 'components/OverFlowHidden';
 
 const Container = styled.div`
   max-width: 1200px;
@@ -151,12 +152,14 @@ const BookView = () => {
             <BookInfo>
               <Left>
                 <Image src={image} alt='book cover' />
-                <Categories>
-                  Categories:
-                  {categories.map((category, i) => (
-                    <CategoryName key={i}>{category}</CategoryName>
-                  ))}
-                </Categories>
+                <OverFlowHidden height={'100'}>
+                  <Categories>
+                    Categories:
+                    {categories.map((category, i) => (
+                      <CategoryName key={i}>{category}</CategoryName>
+                    ))}
+                  </Categories>
+                </OverFlowHidden>
               </Left>
               <Right>
                 <RightTop>
