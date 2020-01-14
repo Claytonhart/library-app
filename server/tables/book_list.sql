@@ -1,0 +1,5 @@
+CREATE TABLE book_list (
+    id INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    books_list_name VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
+);
