@@ -46,6 +46,8 @@ export const GlobalStyle = createGlobalStyle`
     border: none;
     outline: none;
     background-color: transparent;
+    font-family: inherit;
+    cursor: pointer;
   }
 
   /* #root {

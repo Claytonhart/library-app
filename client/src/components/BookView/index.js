@@ -8,6 +8,7 @@ import Description from './Description';
 import notfound from 'assets/images/notfound.svg';
 import { parseCategories } from 'utils/parseCategories';
 import OverFlowHidden from 'components/OverFlowHidden';
+import TitleComponent from 'components/TitleComponent';
 
 const Container = styled.div`
   max-width: 1200px;
@@ -147,6 +148,7 @@ const BookView = () => {
     <>
       {!isLoading && (
         <>
+          <TitleComponent title={title} />
           <Banner image={image} />
           <Container>
             <BookInfo>

@@ -1,20 +1,21 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000/api/',
-  headers: {
-    common: {
-      'x-auth-token': localStorage.token
-    }
-  }
+  baseURL: 'http://localhost:3000/api/'
 });
 
-// export const setAuthToken = token => {
-//   if (token) {
-//     api.defaults.headers.common['x-auth-token'] = token;
-//   } else {
-//     delete api.defaults.headers.common['x-auth-token'];
-//   }
-// };
+api.interceptors.request.use(
+  config => {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      config.headers.common['x-auth-token'] = token;
+    } else {
+      delete api.defaults.headers.common['x-auth-token'];
+    }
+    return config;
+  },
+  error => Promise.reject(error)
+);
 
 export default api;

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import BookSearch from './BookSearch';
+import NavLinks from './NavLinks';
 
 const Nav = styled.div`
   position: fixed;
@@ -27,31 +28,12 @@ const Logo = styled(Link)`
   }
 `;
 
-const AuthLinks = styled.div`
-  /*  */
-`;
-
-const AuthLink = styled(Link)`
-  margin: 10px;
-  font-size: 16px;
-  color: ${props => props.theme.primary.lightblue};
-  transition: all 0.2s;
-
-  &:hover {
-    text-decoration: none;
-    color: ${props => props.theme.primary.darkblue};
-  }
-`;
-
 const Navbar = () => {
   return (
     <Nav>
       <Logo to='/'>Book Search</Logo>
       <BookSearch />
-      <AuthLinks>
-        <AuthLink to='/login'>Sign in</AuthLink>
-        <AuthLink to='/register'>Register</AuthLink>
-      </AuthLinks>
+      <NavLinks />
     </Nav>
   );
 };
