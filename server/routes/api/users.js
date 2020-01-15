@@ -7,9 +7,6 @@ const { check, validationResult } = require('express-validator');
 
 const db = require('../../config/db');
 
-// const User = require('../../models/User');
-// const auth = require('../../middleware/auth');
-
 // @route   POST api/users
 // @desc    Register user
 // @access  Public
@@ -36,7 +33,7 @@ router.post(
 
     try {
       let user = await db.query(
-        `SELECT * FROM users WHERE username="${username}"`
+        `SELECT * FROM user WHERE username="${username}"`
       );
 
       // See if the user exists, return err if true
@@ -56,7 +53,7 @@ router.post(
         password: hashedPassword
       };
 
-      const createUserRes = await db.query(`INSERT INTO users SET ?`, q);
+      const createUserRes = await db.query(`INSERT INTO user SET ?`, q);
       const id = createUserRes.insertId;
 
       // Return jsonwebtoken

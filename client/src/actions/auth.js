@@ -1,4 +1,5 @@
 import axios from 'axios';
+import api from 'utils/createApiInstance';
 // import { setAlert } from './alert';
 import { setError } from './error';
 import {
@@ -12,17 +13,17 @@ import {
   // CLEAR_PROFILE
 } from './types';
 // import setAuthToken from '../utils/setAuthToken';
-import { setAuthToken } from 'utils/createApiInstance';
+// import { setAuthToken } from 'utils/createApiInstance';
 
 // Load User
 export const loadUser = () => async dispatch => {
-  if (localStorage.token) {
-    setAuthToken(localStorage.token);
-  }
+  // if (localStorage.token) {
+  //   setAuthToken(localStorage.token);
+  // }
 
   try {
     if (localStorage.token) {
-      const res = await axios.get('/api/auth');
+      const res = await api.get('/auth');
 
       if (res.data) {
         dispatch({
@@ -47,14 +48,14 @@ export const loadUser = () => async dispatch => {
 };
 
 // Register User
-export const register = ({ name, email, password }) => async dispatch => {
+export const register = ({ username, email, password }) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
     }
   };
 
-  const body = JSON.stringify({ name, email, password });
+  const body = JSON.stringify({ username, email, password });
 
   try {
     const res = await axios.post('/api/users', body, config);

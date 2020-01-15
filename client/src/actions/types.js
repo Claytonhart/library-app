@@ -13,3 +13,4 @@ export const ACCOUNT_DELETED = 'ACCOUNT_DELETED';
 
 // Error
 export const SET_ERROR = 'SET_ERROR';
+export const CLEAR_ERROR = 'CLEAR_ERROR';

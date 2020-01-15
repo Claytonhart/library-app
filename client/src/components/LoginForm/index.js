@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import { LoginForm, LoginInput, LoginButton, LoginError } from './style';
 import { login } from 'actions/auth';
+import { clearError } from 'actions/error';
 
-const Login = ({ login, error }) => {
+const Login = ({ login, clearError, error }) => {
+  useEffect(() => {
+    clearError();
+  }, [clearError]);
+
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -50,4 +55,4 @@ const mapStateToProps = state => ({
   error: state.error
 });
 
-export default connect(mapStateToProps, { login })(Login);
+export default connect(mapStateToProps, { login, clearError })(Login);

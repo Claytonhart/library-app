@@ -1,4 +1,4 @@
-import { SET_ERROR } from '../actions/types';
+import { SET_ERROR, CLEAR_ERROR } from '../actions/types';
 
 const initialState = {};
 
@@ -14,6 +14,9 @@ export default function(state = initialState, action) {
         msg,
         id
       };
+    }
+    case CLEAR_ERROR: {
+      return {};
     }
     default: {
       return state;

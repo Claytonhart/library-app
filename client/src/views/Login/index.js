@@ -7,7 +7,7 @@ import LoginForm from 'components/LoginForm';
 
 const Login = ({ isAuthenticated }) => {
   if (isAuthenticated) {
-    return <Redirect to='/projects' />;
+    return <Redirect to='/booklists' />;
   }
 
   return (

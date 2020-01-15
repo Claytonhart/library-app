@@ -6,6 +6,7 @@ import BookSearch from 'components/BookSearch';
 import BookView from 'components/BookView';
 import Navbar from 'components/Navbar';
 import Login from 'views/Login';
+import Register from 'views/Register';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route exact path='/books' component={BookSearch} />
           <Route path='/books/:id' component={BookView} />
           <Route path='/login' component={Login} />
+          <Route path='/register' component={Register} />
         </div>
       </>
     </Router>

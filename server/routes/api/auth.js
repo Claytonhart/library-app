@@ -14,7 +14,7 @@ const db = require('../../config/db');
 router.get('/', auth, async (req, res) => {
   try {
     let user = await db.query(
-      `SELECT id, username, email, created_at FROM users WHERE id="${req.user.id}"`
+      `SELECT id, username, email, created_at FROM user WHERE id="${req.user.id}"`
     );
 
     // returns empty array if no user
@@ -43,7 +43,7 @@ router.post(
     const { email, password } = req.body;
 
     try {
-      let user = await db.query(`SELECT * FROM users WHERE email="${email}"`);
+      let user = await db.query(`SELECT * FROM user WHERE email="${email}"`);
 
       // check if user (email) exists
       if (!user[0]) {
