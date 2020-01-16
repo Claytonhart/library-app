@@ -39,8 +39,8 @@ const Next = styled.button`
 
 const BookSearch = ({ bookList, searchVal, getBookList }) => {
   useEffect(() => {
-    getBookList();
-  }, [getBookList]);
+    getBookList(searchVal);
+  }, [getBookList, searchVal]);
 
   const getNextBookList = () => {
     getBookList('Not harry potter');

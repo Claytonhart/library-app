@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import styled from 'styled-components/macro';
 
 import { getBookList } from 'actions/bookList';
+import { setSearchVal } from 'actions/searchVal';
 
 const Search = styled.div`
   /*  */
@@ -21,12 +23,15 @@ const BookInput = styled.input`
   width: 100%;
 `;
 
-const BookSearch = ({ getBookList }) => {
+const BookSearch = ({ getBookList, setSearchVal }) => {
   const [searchValue, setSearchValue] = useState('');
+  const history = useHistory();
 
   const formSubmit = async e => {
     e.preventDefault();
-    getBookList(searchValue);
+    setSearchVal(searchValue, history);
+    // getBookList(searchValue);
+    setSearchValue('');
   };
 
   return (
@@ -43,4 +48,4 @@ const BookSearch = ({ getBookList }) => {
   );
 };
 
-export default connect(null, { getBookList })(BookSearch);
+export default connect(null, { getBookList, setSearchVal })(BookSearch);
