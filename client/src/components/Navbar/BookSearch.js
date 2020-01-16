@@ -23,14 +23,13 @@ const BookInput = styled.input`
   width: 100%;
 `;
 
-const BookSearch = ({ getBookList, setSearchVal }) => {
+const BookSearch = ({ setSearchVal }) => {
   const [searchValue, setSearchValue] = useState('');
   const history = useHistory();
 
   const formSubmit = async e => {
     e.preventDefault();
     setSearchVal(searchValue, history);
-    // getBookList(searchValue);
     setSearchValue('');
   };
 

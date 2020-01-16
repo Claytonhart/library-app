@@ -1,23 +1,29 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components/macro';
 
-const Name = styled.a`
-  display: inline-block;
+import { setSearchVal } from 'actions/searchVal';
+
+const SearchAuthorNameButton = styled.button`
   color: inherit;
   font-size: 18px;
 `;
 
-const AuthorName = ({ author, addComma }) => {
-  const baseUrl = `https://www.google.com/search?tbm=bks&tbm=bks&q=inauthor:"${author}"`;
+const AuthorName = ({ author, addComma, setSearchVal }) => {
+  const history = useHistory();
+  const searchString = `inauthor:"${author}"`;
 
   return (
     <>
-      <Name href={baseUrl} target='_blank' rel='noopener noreferrer'>
+      <SearchAuthorNameButton
+        onClick={() => setSearchVal(searchString, history)}
+      >
         {author}
-      </Name>
+      </SearchAuthorNameButton>
       {addComma && <span>,&nbsp;&nbsp;</span>}
     </>
   );
 };
 
-export default AuthorName;
+export default connect(null, { setSearchVal })(AuthorName);
