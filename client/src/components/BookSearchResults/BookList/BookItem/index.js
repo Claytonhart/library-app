@@ -15,6 +15,7 @@ const InfoContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   padding: 10px;
+  flex: 1;
 `;
 
 const Info = styled.div`

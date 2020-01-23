@@ -4,10 +4,11 @@ import { GET_BOOK_LIST, CLEAR_BOOK_LIST } from './types';
 import { setSearchVal } from './searchVal';
 
 // will need options passed later for filtering searches.
-export const getBookList = searchVal => async dispatch => {
-  const baseUrl = 'https://www.googleapis.com/books/v1/volumes?q=';
-  if (!searchVal) searchVal = 'Harry Potter';
-  let res = await axios.get(`${baseUrl}${searchVal}`);
+export const getBookList = params => async dispatch => {
+  const baseUrl = 'https://www.googleapis.com/books/v1/volumes';
+  if (!params.q) params.q = 'Harry Potter';
+  // let res = await axios.get(`${baseUrl}${params}`);
+  let res = await axios.get(baseUrl, { params });
 
   // dispatch(setSearchVal(searchVal));
   dispatch({

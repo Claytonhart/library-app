@@ -8,7 +8,7 @@ const db = require('./config/db');
 app.use(express.json({ extended: false }));
 
 app.get('/', async (req, res) => {
-  const q = 'SELECT * FROM users';
+  const q = 'SELECT * FROM user';
 
   try {
     const response = await db.query(q);
@@ -20,7 +20,7 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/test', async (req, res) => {
-  const q = 'SELECT * FROM users WHERE username="johnsmith"';
+  const q = 'SELECT * FROM user WHERE username="johnsmith"';
 
   try {
     const response = await db.query(q);

@@ -1,5 +1,5 @@
 import React from 'react';
-import BookItem from '../BookItem';
+import BookItem from './BookItem';
 import styled from 'styled-components/macro';
 const ListContainer = styled.div`
   display: flex;

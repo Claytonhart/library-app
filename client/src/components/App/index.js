@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import withAuthentication from 'components/Session/withAuthentication';
-import BookSearch from 'components/BookSearch';
+import BookSearchResults from 'components/BookSearchResults';
 import BookView from 'components/BookView';
 import Navbar from 'components/Navbar';
 import TitleComponent from 'components/TitleComponent';
@@ -15,9 +15,9 @@ function App() {
       <TitleComponent />
       <Navbar />
       <div style={{ marginTop: 58 }}>
-        <Route exact path='/' component={BookSearch} />
-        <Route exact path='/books' component={BookSearch} />
+        <Route exact path='/' component={BookSearchResults} />
         <Route path='/books/:id' component={BookView} />
+        <Route path='/search' component={BookSearchResults} />
         <Route path='/login' component={Login} />
         <Route path='/register' component={Register} />
       </div>
