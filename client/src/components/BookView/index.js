@@ -5,6 +5,7 @@ import styled from 'styled-components/macro';
 
 import AuthorName from './AuthorName';
 import Description from './Description';
+import AddToList from './AddToList';
 import notfound from 'assets/images/notfound.svg';
 import { parseCategories } from 'utils/parseCategories';
 import OverFlowHidden from 'components/OverFlowHidden';
@@ -61,19 +62,19 @@ const RightBottom = styled.div`
   padding-top: 20px;
 `;
 
-const AddToList = styled.button`
-  padding: 12px 24px;
-  border: 1px solid ${props => props.theme.primary.lightblue};
-  color: ${props => props.theme.primary.lightblue};
-  cursor: pointer;
-  transition: all 0.2s ease-in;
-  margin-bottom: 20px;
+// const AddToList = styled.button`
+//   padding: 12px 24px;
+//   border: 1px solid ${props => props.theme.primary.lightblue};
+//   color: ${props => props.theme.primary.lightblue};
+//   cursor: pointer;
+//   transition: all 0.2s ease-in;
+//   margin-bottom: 20px;
 
-  &:hover {
-    background-color: ${props => props.theme.primary.lightblue};
-    color: #fff;
-  }
-`;
+//   &:hover {
+//     background-color: ${props => props.theme.primary.lightblue};
+//     color: #fff;
+//   }
+// `;
 
 const Title = styled.h1`
   overflow: hidden;
@@ -179,7 +180,7 @@ const BookView = () => {
                   <BookType>Book</BookType>
                 </RightTop>
                 <RightBottom>
-                  <AddToList>Add To My Booklist</AddToList>
+                  <AddToList bookId={id}>Add To My Booklist</AddToList>
                   <Description description={description} />
                   <Publisher>Published by: {publisher}</Publisher>
                   <AverageRating>Average rating: {averageRating}</AverageRating>

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { GET_BOOK_LIST, CLEAR_BOOK_LIST } from './types';
-import { setSearchVal } from './searchVal';
+// import { setSearchVal } from './searchVal';
 
 // will need options passed later for filtering searches.
 export const getBookList = params => async dispatch => {
