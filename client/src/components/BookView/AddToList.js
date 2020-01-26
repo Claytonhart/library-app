@@ -30,7 +30,7 @@ const AddIcon = styled.i`
   transform: translateY(2px);
 `;
 
-const AddToList = ({ bookId }) => {
+const AddToList = ({ bookinfo }) => {
   const [showDropdown, setShowDropdown] = useState(false);
 
   const toggleShowDropdown = () => {
@@ -49,7 +49,7 @@ const AddToList = ({ bookId }) => {
           left={'0px'}
           right={'0px'}
         >
-          <AddToListDropdown bookId={bookId} />
+          <AddToListDropdown bookinfo={bookinfo} />
         </DropdownContainer>
       )}
     </AddContainer>

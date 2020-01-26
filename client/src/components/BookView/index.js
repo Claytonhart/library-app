@@ -141,6 +141,8 @@ const BookView = () => {
     const { medium, small, thumbnail, smallThumbnail } = imageLinks;
 
     image = medium || small || thumbnail || smallThumbnail;
+    // remove everything after &imgtk, a really long internal id of some kind?
+    image = image.split('&imgtk')[0];
   } else {
     image = notfound;
   }
@@ -180,7 +182,11 @@ const BookView = () => {
                   <BookType>Book</BookType>
                 </RightTop>
                 <RightBottom>
-                  <AddToList bookId={id}>Add To My Booklist</AddToList>
+                  <AddToList
+                    bookinfo={{ google_id: id, title, description, image }}
+                  >
+                    Add To My Booklist
+                  </AddToList>
                   <Description description={description} />
                   <Publisher>Published by: {publisher}</Publisher>
                   <AverageRating>Average rating: {averageRating}</AverageRating>

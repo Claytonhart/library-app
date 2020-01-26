@@ -41,9 +41,58 @@ router.post('/', auth, async (req, res) => {
 
     const createBookListRes = await db.query(`INSERT INTO book_list SET ?`, q);
     const id = createBookListRes.insertId;
+    console.log(createBookListRes);
+    console.log(id);
 
     // returns empty array if no id
     res.json(id);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   POST api/mybooklist/:booklistId
+// @desc    add a book_list_book to a booklist
+// @access  Private
+router.post('/:booklistId', auth, async (req, res) => {
+  try {
+    const bookQ = { google_id: req.body.google_id };
+    let book_id = await db.query(`SELECT id FROM book WHERE ?`, bookQ);
+    console.log(book_id);
+
+    if (book_id.length === 0) {
+      let bookInfo = {
+        google_id: req.body.google_id,
+        title: req.body.title,
+        description: req.body.description,
+        isbn10: req.body.isbn10 || null,
+        isbn13: req.body.isbn13 || null,
+        thumbnail: req.body.image
+      };
+      let book_id_res = await db.query(`INSERT INTO book SET ?`, bookInfo);
+      console.log(book_id_res);
+      book_id = book_id_res.insertId;
+    } else {
+      book_id = book_id[0].id;
+    }
+    console.log(book_id);
+
+    const q = {
+      book_list_id: req.params.booklistId,
+      book_id: book_id,
+      user_id: req.user.id
+    };
+
+    const bookListBookRes = await db.query(
+      `INSERT INTO book_list_book SET ?`,
+      q
+    );
+    const id = bookListBookRes.insertId;
+
+    // returns empty array if no id
+    res.json(id);
+    // res.json(id);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

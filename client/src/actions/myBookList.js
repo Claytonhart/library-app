@@ -12,11 +12,11 @@ import {
   CLEAR_MY_BOOKLIST
 } from './types';
 
-export const createNewMyBooklist = title => async dispatch => {
+export const createNewMyBooklist = name => async dispatch => {
   // could have a loading type if this gets slow.
   // hit backend, create new myBooklist, return its id
   try {
-    let myBooklistId = await api.post('/mybooklist', { title });
+    let myBooklistId = await api.post('/mybooklist', { name });
 
     if (!myBooklistId) {
       dispatch({
@@ -65,11 +65,14 @@ export const removeFromMyBooklist = (booklistId, bookId) => async dispatch => {
   };
 };
 
-export const addToMyBooklist = (booklistId, bookId) => async dispatch => {
-  let booklistData = await api.put(`/mybooklist/${booklistId}/${bookId}`);
-  return {
-    type: ADD_TO_MY_BOOKLIST
-  };
+export const addToMyBooklist = (booklistId, info) => async dispatch => {
+  let res = await api.post(`/mybooklist/${booklistId}`, info);
+  let booklistData = res.data;
+  console.log(booklistData);
+  dispatch({
+    type: ADD_TO_MY_BOOKLIST,
+    payload: booklistData
+  });
 };
 
 export const deleteMyBooklist = booklistId => async dispatch => {

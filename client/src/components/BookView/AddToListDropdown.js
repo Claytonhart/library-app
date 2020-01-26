@@ -27,7 +27,7 @@ const Loading = styled(BookList)`
   padding: 8px 16px;
 `;
 
-const AddToListDropdown = ({ bookId }) => {
+const AddToListDropdown = ({ bookinfo }) => {
   const dispatch = useDispatch();
   const { isLoading, data, error } = useSelector(state => state.myBooklist);
 
@@ -37,9 +37,8 @@ const AddToListDropdown = ({ bookId }) => {
     return () => dispatch(clearMyBooklists());
   }, [dispatch]);
 
-  const addBook = () => {
-    dispatch(addToMyBooklist('1', bookId));
-    // dispatch(addToMyBooklist(bookListId, bookId));
+  const addBook = bookListId => {
+    dispatch(addToMyBooklist(bookListId, bookinfo));
   };
 
   return (
@@ -47,8 +46,10 @@ const AddToListDropdown = ({ bookId }) => {
       {/* Later, need to check if length === 0, show create new list button */}
       {/* Also need to clear out *potentially* all state when a user logs out */}
       {data &&
-        data.map(book => (
-          <BookList key={book.id}>{book.book_list_name}</BookList>
+        data.map(bookList => (
+          <BookList onClick={() => addBook(bookList.id)} key={bookList.id}>
+            {bookList.book_list_name}
+          </BookList>
         ))}
       {error && <BookList>Couldn't find any of your booklists</BookList>}
       {isLoading && (
