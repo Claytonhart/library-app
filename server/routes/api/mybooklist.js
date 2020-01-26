@@ -118,13 +118,16 @@ router.get('/contains/:bookId', auth, async (req, res) => {
       [req.params.bookId, req.user.id]
     );
 
-    let ids = [];
+    // let ids = [];
+    let ids = {};
     for (let book of bookListRes) {
-      ids.push(book.book_list_id);
+      // ids.push(book.book_list_id);
+      ids[book.book_list_id] = true;
     }
 
     for (let row of rows) {
-      row.containsBook = ids.includes(row.id);
+      // row.containsBook = ids.includes(row.id);
+      row.containsBook = !!ids[row.id];
     }
 
     res.json(rows);
