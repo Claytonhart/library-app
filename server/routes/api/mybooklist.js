@@ -99,4 +99,42 @@ router.post('/:booklistId', auth, async (req, res) => {
   }
 });
 
+// @route   POST api/mybooklist/contains/:bookId
+// @desc    check if a book_list_book is in the book_list
+// @access  Private
+router.get('/contains/:bookId', auth, async (req, res) => {
+  try {
+    const q = {
+      user_id: req.user.id
+    };
+
+    const rows = await db.query(
+      `SELECT id, book_list_name, created_at FROM book_list WHERE ?`,
+      q
+    );
+
+    let bookListRes = await db.query(
+      `SELECT book_list_id FROM book_list_book JOIN book ON book_list_book.book_id=book.id WHERE book.google_id=? AND book_list_book.user_id=?`,
+      [req.params.bookId, req.user.id]
+    );
+
+    let ids = [];
+    for (let book of bookListRes) {
+      ids.push(book.book_list_id);
+    }
+
+    for (let row of rows) {
+      row.containsBook = ids.includes(row.id);
+    }
+
+    res.json(rows);
+
+    // const bookListContains = bookListRes[0].numBooks !== 0;
+    // res.json({ contains: bookListContains });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;

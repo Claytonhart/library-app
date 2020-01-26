@@ -37,13 +37,14 @@ export const createNewMyBooklist = name => async dispatch => {
   }
 };
 
-export const getMyBooklists = () => async dispatch => {
+export const getMyBooklists = id => async dispatch => {
   try {
     dispatch({
       type: GET_MY_BOOKLIST_REQUEST
     });
 
-    let res = await api.get('/mybooklist');
+    let res = await api.get(`/mybooklist/contains/${id}`);
+    // let res = await api.get('/mybooklist');
     let myBooklists = res.data;
 
     dispatch({
