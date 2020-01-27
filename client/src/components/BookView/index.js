@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components/macro';
@@ -105,6 +106,7 @@ const Publisher = styled.div``;
 const BookView = () => {
   const [bookData, setBookData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
   const { id } = useParams();
 
@@ -182,11 +184,13 @@ const BookView = () => {
                   <BookType>Book</BookType>
                 </RightTop>
                 <RightBottom>
-                  <AddToList
-                    bookinfo={{ google_id: id, title, description, image }}
-                  >
-                    Add To My Booklist
-                  </AddToList>
+                  {isAuthenticated && (
+                    <AddToList
+                      bookinfo={{ google_id: id, title, description, image }}
+                    >
+                      Add To My Booklist
+                    </AddToList>
+                  )}
                   <Description description={description} />
                   <Publisher>Published by: {publisher}</Publisher>
                   <AverageRating>Average rating: {averageRating}</AverageRating>

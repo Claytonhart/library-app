@@ -1,24 +1,23 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components/macro';
-
-import { setSearchVal } from 'actions/searchVal';
 
 const SearchAuthorNameButton = styled.button`
   color: inherit;
   font-size: 18px;
 `;
 
-const AuthorName = ({ author, addComma, setSearchVal }) => {
+const AuthorName = ({ author, addComma }) => {
   const history = useHistory();
   const searchString = `inauthor:"${author}"`;
 
+  const navigateToSearch = () => {
+    history.push(`/search?q=${searchString}`);
+  };
+
   return (
     <>
-      <SearchAuthorNameButton
-        onClick={() => setSearchVal(searchString, history)}
-      >
+      <SearchAuthorNameButton onClick={navigateToSearch}>
         {author}
       </SearchAuthorNameButton>
       {addComma && <span>,&nbsp;&nbsp;</span>}
@@ -26,4 +25,4 @@ const AuthorName = ({ author, addComma, setSearchVal }) => {
   );
 };
 
-export default connect(null, { setSearchVal })(AuthorName);
+export default AuthorName;

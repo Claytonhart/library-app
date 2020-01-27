@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
 import queryString from 'query-string';
+import axios from 'axios';
 
-import { getBookList, clearBookList } from 'actions/bookList';
 import BookList from './BookList';
 import TitleComponent from '../TitleComponent';
 import {
@@ -19,34 +18,37 @@ import {
 
 const BookSearchResults = () => {
   let [queryState, setQueryState] = useState({});
+  let [booklist, setBooklist] = useState(null);
+  let [totalItems, setTotalItems] = useState(0);
   let history = useHistory();
   let search = useLocation().search;
 
-  const dispatch = useDispatch();
-  const bookList = useSelector(state => state.bookList);
-
   useEffect(() => {
-    const parsed = queryString.parse(search, {
-      sort: false
-    });
+    const parsed = queryString.parse(search);
 
-    // redirect to root if no query is passed for some reason
+    // redirect to root if no query is passed for some reason,
+    // google api doesn't allow searches with no params
     if (!parsed.q) {
       history.push('/');
     }
 
-    dispatch(getBookList(parsed));
-    setQueryState(parsed);
-
-    return () => dispatch(clearBookList());
-  }, [search, history, dispatch]);
+    (async () => {
+      const baseUrl = 'https://www.googleapis.com/books/v1/volumes';
+      if (!parsed.q) parsed.q = 'Harry Potter';
+      let res = await axios.get(baseUrl, { params: parsed });
+      let { data } = res;
+      setBooklist(data.items);
+      setTotalItems(data.totalItems);
+      setQueryState(parsed);
+    })();
+  }, [search, history]);
 
   // make sure we don't try to set a startIndex past our total items
   const getNextBookList = () => {
     let newStartIndex = Number(queryState.startIndex || 0) + 10;
-    if (newStartIndex >= bookList.totalItems) return;
+    if (newStartIndex >= totalItems) return;
     let qs = { ...queryState, startIndex: newStartIndex };
-    qs = queryString.stringify(qs, { sort: false });
+    qs = queryString.stringify(qs);
     history.push(`/search?${qs}`);
   };
 
@@ -55,25 +57,23 @@ const BookSearchResults = () => {
     let newStartIndex = Number(queryState.startIndex || 0) - 10;
     if (newStartIndex < 0) return;
     let qs = { ...queryState, startIndex: newStartIndex };
-    qs = queryString.stringify(qs, { sort: false });
+    qs = queryString.stringify(qs);
     history.push(`/search?${qs}`);
   };
 
   return (
     <Container>
       <TitleComponent title={queryState.q} />
-      {bookList && (
+      {booklist && (
         <>
           <Header>{queryState.q}</Header>
           <CurrentPage>
             Current page:{' '}
             {Math.floor(Number(queryState.startIndex || 0) / 10) + 1}
           </CurrentPage>
-          <TotalPages>
-            Total Pages: {Math.ceil(bookList.totalItems / 10)}
-          </TotalPages>
-          <TotalResults>Total results: {bookList.totalItems}</TotalResults>
-          <BookList bookData={bookList} />
+          <TotalPages>Total Pages: {Math.ceil(totalItems / 10)}</TotalPages>
+          <TotalResults>Total results: {totalItems}</TotalResults>
+          <BookList bookData={booklist} />
           <PaginationLinks>
             <Prev onClick={getPrevBookList}>Previous</Prev>
             <Next onClick={getNextBookList}>Next</Next>

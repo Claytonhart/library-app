@@ -10,7 +10,7 @@ const ListContainer = styled.div`
 const BookList = ({ bookData }) => {
   return (
     <ListContainer>
-      {bookData.items.map((book, i) => {
+      {bookData.map((book, i) => {
         return <BookItem key={i + book.id} book={book} />;
       })}
     </ListContainer>

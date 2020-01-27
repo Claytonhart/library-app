@@ -57,7 +57,7 @@ const AddToListDropdown = ({ bookinfo }) => {
             <Checkbox checked={bookList.containsBook} />
           </BookList>
         ))}
-      {error && <BookList>Couldn't find any of your booklists</BookList>}
+      {error && <BookList>Something went wrong, please try reloading</BookList>}
       {isLoading && (
         <Loading>
           <Spinner />
