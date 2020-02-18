@@ -60,19 +60,22 @@ export const getMyBooklists = id => async dispatch => {
 };
 
 export const removeFromMyBooklist = (booklistId, bookId) => async dispatch => {
-  let confirmation = await api.delete(`/mybooklist/${booklistId}/${bookId}`);
-  return {
-    type: REMOVE_FROM_MY_BOOKLIST
-  };
+  try {
+    await api.delete(`/mybooklist/${booklistId}/${bookId}`);
+    dispatch({
+      type: REMOVE_FROM_MY_BOOKLIST,
+      payload: booklistId
+    });
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 export const addToMyBooklist = (booklistId, info) => async dispatch => {
-  let res = await api.post(`/mybooklist/${booklistId}`, info);
-  let booklistData = res.data;
-  console.log(booklistData);
+  await api.post(`/mybooklist/${booklistId}`, info);
   dispatch({
     type: ADD_TO_MY_BOOKLIST,
-    payload: booklistData
+    payload: booklistId
   });
 };
 

@@ -33,19 +33,21 @@ router.get('/', auth, async (req, res) => {
 // @desc    create a new booklist
 // @access  Private
 router.post('/', auth, async (req, res) => {
+  const { name } = req.body;
+
   try {
     const q = {
-      book_list_name: req.body.name,
+      book_list_name: name,
       user_id: req.user.id
     };
 
     const createBookListRes = await db.query(`INSERT INTO book_list SET ?`, q);
-    const id = createBookListRes.insertId;
+    const bookListId = createBookListRes.insertId;
     console.log(createBookListRes);
-    console.log(id);
+    console.log(bookListId);
 
     // returns empty array if no id
-    res.json(id);
+    res.json(bookListId);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -53,46 +55,51 @@ router.post('/', auth, async (req, res) => {
 });
 
 // @route   POST api/mybooklist/:booklistId
-// @desc    add a book_list_book to a booklist
+// @desc    add a book_list_book to a booklist,
+//          add to book table if it doesn't exist already
 // @access  Private
 router.post('/:booklistId', auth, async (req, res) => {
   try {
-    const bookQ = { google_id: req.body.google_id };
-    let book_id = await db.query(`SELECT id FROM book WHERE ?`, bookQ);
-    console.log(book_id);
+    const { google_id, title, description, image } = req.body;
 
-    if (book_id.length === 0) {
-      let bookInfo = {
-        google_id: req.body.google_id,
-        title: req.body.title,
-        description: req.body.description,
-        isbn10: req.body.isbn10 || null,
-        isbn13: req.body.isbn13 || null,
-        thumbnail: req.body.image
-      };
-      let book_id_res = await db.query(`INSERT INTO book SET ?`, bookInfo);
-      console.log(book_id_res);
-      book_id = book_id_res.insertId;
-    } else {
-      book_id = book_id[0].id;
-    }
-    console.log(book_id);
+    const bookInfo = {
+      id: google_id,
+      title: title,
+      description: description,
+      thumbnail: image
+    };
+    // Insert into book table, or update existing record if already exists.
+    await db.query(`INSERT IGNORE INTO book SET ?`, bookInfo);
 
     const q = {
       book_list_id: req.params.booklistId,
-      book_id: book_id,
+      book_id: google_id,
       user_id: req.user.id
     };
 
-    const bookListBookRes = await db.query(
-      `INSERT INTO book_list_book SET ?`,
-      q
-    );
-    const id = bookListBookRes.insertId;
+    await db.query(`INSERT INTO book_list_book SET ?`, q);
 
-    // returns empty array if no id
-    res.json(id);
-    // res.json(id);
+    res.json(req.params.booklistId);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   Delete api/mybooklist/:booklistId/:bookId
+// @desc    remove a book_list_book from a booklist
+// @access  Private
+router.delete('/:booklistId/:bookId', auth, async (req, res) => {
+  try {
+    const { booklistId, bookId } = req.params;
+
+    // remove book_list_book from booklist if it exists
+    await db.query(
+      `DELETE FROM book_list_book WHERE book_list_id=? AND book_id=?`,
+      [booklistId, bookId]
+    );
+
+    res.status(204).send();
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -104,6 +111,7 @@ router.post('/:booklistId', auth, async (req, res) => {
 // @access  Private
 router.get('/contains/:bookId', auth, async (req, res) => {
   try {
+    const { bookId } = req.params;
     const q = {
       user_id: req.user.id
     };
@@ -114,8 +122,8 @@ router.get('/contains/:bookId', auth, async (req, res) => {
     );
 
     let bookListRes = await db.query(
-      `SELECT book_list_id FROM book_list_book JOIN book ON book_list_book.book_id=book.id WHERE book.google_id=? AND book_list_book.user_id=?`,
-      [req.params.bookId, req.user.id]
+      `SELECT book_list_id FROM book_list_book JOIN book ON book_list_book.book_id=book.id WHERE book.id=? AND book_list_book.user_id=?`,
+      [bookId, req.user.id]
     );
 
     // let ids = [];

@@ -5,9 +5,10 @@ import styled from 'styled-components/macro';
 
 import {
   addToMyBooklist,
+  removeFromMyBooklist,
   getMyBooklists,
   clearMyBooklists
-} from 'actions/myBookList';
+} from 'actions/myBooklist';
 import Spinner from 'components/Spinner';
 import Checkbox from './Checkbox';
 
@@ -27,14 +28,16 @@ const BookList = styled.div`
 `;
 
 const Loading = styled(BookList)`
-  text-align: center;
+  justify-content: center;
   padding: 8px 16px;
 `;
 
 const AddToListDropdown = ({ bookinfo }) => {
   const dispatch = useDispatch();
   const { id } = useParams();
-  const { isLoading, data, error } = useSelector(state => state.myBooklist);
+  const { isLoading, data: myBooklist, error } = useSelector(
+    state => state.myBooklist
+  );
 
   useEffect(() => {
     dispatch(getMyBooklists(id));
@@ -42,19 +45,27 @@ const AddToListDropdown = ({ bookinfo }) => {
     return () => dispatch(clearMyBooklists());
   }, [dispatch, id]);
 
-  const addBook = bookListId => {
-    dispatch(addToMyBooklist(bookListId, bookinfo));
+  const toggleBookInBooklist = booklist => {
+    const { id: booklistId, containsBook } = booklist;
+    if (containsBook) {
+      dispatch(removeFromMyBooklist(booklistId, id));
+    } else {
+      dispatch(addToMyBooklist(booklistId, bookinfo));
+    }
   };
 
   return (
     <>
       {/* Later, need to check if length === 0, show create new list button */}
       {/* Also need to clear out *potentially* all state when a user logs out */}
-      {data &&
-        data.map(bookList => (
-          <BookList onClick={() => addBook(bookList.id)} key={bookList.id}>
-            <span>{bookList.book_list_name}</span>
-            <Checkbox checked={bookList.containsBook} />
+      {myBooklist &&
+        myBooklist.map(booklist => (
+          <BookList
+            onClick={() => toggleBookInBooklist(booklist)}
+            key={booklist.id}
+          >
+            <span>{booklist.book_list_name}</span>
+            <Checkbox checked={booklist.containsBook} />
           </BookList>
         ))}
       {error && <BookList>Something went wrong, please try reloading</BookList>}

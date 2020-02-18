@@ -46,7 +46,36 @@ export default function(state = initialState, action) {
     case CLEAR_MY_BOOKLIST: {
       return initialState;
     }
+    case REMOVE_FROM_MY_BOOKLIST:
+    case ADD_TO_MY_BOOKLIST: {
+      const booklistId = Number(payload);
+
+      let bookIndex = state.data.findIndex(
+        booklist => booklist.id === booklistId
+      );
+      let newData = toggleContainsBook(state.data, bookIndex);
+
+      return {
+        ...state,
+        data: newData
+      };
+    }
     default:
       return state;
   }
+}
+
+// redux docs -> https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns/
+function toggleContainsBook(array, bookIndex) {
+  return array.map((item, index) => {
+    if (index !== bookIndex) {
+      // This isn't the item we care about - keep it as-is
+      return item;
+    }
+    // Otherwise, this is the one we want - return an updated value
+    return {
+      ...item,
+      containsBook: !item.containsBook
+    };
+  });
 }
